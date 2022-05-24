@@ -1,13 +1,15 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import joblib
 from prediction import get_prediction, ordinal_encoder
-import zipfile
-with zipfile.ZipFile("Model/extree_tuned.zip", 'r') as zip_ref:
-    zip_ref.extractall("Model/")
+import bz2file
+import pickle
 
-model = joblib.load(r'Model/extree_tuned.pkl')
+def decompress_pickle(file):
+    data = bz2file.open(file, 'rb')
+    return pickle.load(data)
+
+model = decompress_pickle('Model/extra_tuned.pbz2')
 
 st.set_page_config(page_title="Accident Severity Prediction App",
                    page_icon="🚧", layout="wide")
